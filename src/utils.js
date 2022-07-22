@@ -11,7 +11,12 @@ const headers = {
  * Generic POST request
  */
 async function call (host, path, data, agent) {
-  const resp = await nf(`${host}/${path}`, { agent, body: JSON.stringify(data), headers, method: 'POST' })
+  const resp = await /* TODO: JSFIX could not patch the breaking change:
+  req.body can no longer be a string*/
+  nf(
+    `${host}/${path}`,
+    { agent, body: JSON.stringify(data), headers, method: 'POST' }
+  )
   let body = await resp.text()
   if (body.length === 0) return ''
   try {
